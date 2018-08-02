@@ -1,0 +1,112 @@
+<!DOCTYPE <!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Psychic Game</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script>
+
+        var userInput;
+        var validInputs = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"];
+        var wins = 0;
+        var loses = 0;
+        var totalGuesses = 9;
+        var guessesSoFar="";
+        
+
+        document.onkeyup = function(event){
+
+           // gather user input
+            userInput = event.key;
+
+            // if user input isn't a alphabet then alert user
+            if (validInputs.indexOf(userInput) === -1){
+                alert("Invalid input");
+            }
+            else{
+            // reduce guess counter by 1
+                totalGuesses--;
+            // generate a random alphabet
+                var comInput = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 1);
+            // compare computer generated to user entered..and if user wins increment wins counter by 1 and also set winMsg style a bit
+            // else increment loss counte by 1 and also set message accordingly..
+                if(userInput === comInput){
+                    wins++;
+                    document.getElementById("winMsg").textContent = "You won!";
+                    document.getElementById("winMsg").style.color = "blue";
+                }
+                else {
+                    loses++;
+                    document.getElementById("winMsg").textContent = "You lost!";
+                    document.getElementById("winMsg").style.color = "red";
+
+                }
+            // set guesses string value and format it properly..
+                if(totalGuesses === 0){
+                    guessesSoFar += userInput;
+                }
+                else{
+                    guessesSoFar += userInput + ", ";
+                }
+                               
+            }
+
+            // reset values after 9 attempts..
+            if(totalGuesses === -1){
+                wins = 0;
+                loses = 0;
+                guessesSoFar = "";
+                alert("Game over and reinitializing game..");
+                totalGuesses = 9;
+                userInput = "";
+                comInput = "";
+            }
+
+            // prepare / set presentation.....
+            document.getElementById("totalGuesses").textContent = totalGuesses;
+            document.getElementById("wins").textContent = wins;
+            document.getElementById("loses").textContent = loses;
+            document.getElementById("guessesSoFar").textContent = guessesSoFar;
+            document.getElementById("input").textContent = userInput;
+            document.getElementById("comInput").textContent = comInput;
+        }
+
+       </script>
+    <style>
+    #winmsg {
+        font-size:20px;
+        font-weight:bold;
+
+    }
+
+    .container {
+        padding:20px;
+        text-align:left;
+    }
+    .container>div {
+        padding:10px;
+    }
+
+    div>h3 {
+        text-decoration:underline;
+    }
+    </style>
+</head>
+<body>
+
+    <!--- all set, handover to HTML-->
+    <div class = "container">
+        <div><h2><u>Psychic Game</u></h2></div>
+        <div>Guess What letter (lower case) I am thinking of:  <span id = "comInput"></span></div>
+        <div>Your Input was:  <span id="input"></span></div>
+        <div><span id = "winMsg"></span></div>
+        <br>
+        <div><h3>Scores</h3></div>
+        <div>Wins:  <span id = "wins"></span></div>
+        <div>Loses:  <span id = "loses"></span></div>
+        <div>Guesses Left:  <span id = "totalGuesses"></span></div>
+        <div>Your guesses so far:  <span id = "guessesSoFar"></span></div>
+    </div>
+</body>
+</html>
